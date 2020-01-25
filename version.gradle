@@ -1,0 +1,38 @@
+def getPubVersion = { ->
+    def pubVersionMajor = 1
+    def pubVersionMinor = 0
+
+    def versionPropsFile = file('version.properties')
+    if (versionPropsFile.canRead()) {
+        def Properties versionProps = new Properties()
+
+        versionProps.load(new FileInputStream(versionPropsFile))
+        def code = versionProps['VERSION_BUILD'].toInteger() + 1
+        versionProps['VERSION_BUILD'] = code.toString()
+        versionProps.store(versionPropsFile.newWriter(), null)
+        return (String)pubVersionMajor + '.' + pubVersionMinor + '.' + (code - 1) //+ '-SNAPSHOT'
+    }
+    else {
+        throw new GradleException("Could not read version.properties!")
+    }
+}
+ext.pubVersion = getPubVersion()
+def pubVersion = ext.pubVersion
+
+def vendordepsdir = rootProject.projectDir.toString() + "/build/vendordeps"
+
+// Add the correct version number to the template JSON file and place it in the vendordeps folder to be zipped
+task updateVendorDeps {
+    mkdir vendordepsdir
+    def newJSON = new File(vendordepsdir + "/Limelight.json")
+    def templateJSON = new File(rootProject.projectDir.toString() + "/Limelight_template.json")
+
+    newJSON.withWriter { def writer ->
+        templateJSON.eachLine { def line ->
+            def newLine = line.replace("__VERSION_HERE__", '"' + pubVersion + '"')
+            writer.write(newLine + "\n");
+        }
+    }
+}
+
+build.dependsOn updateVendorDeps

@@ -25,14 +25,14 @@ apply from: 'dependencies.gradle'
 
 nativeUtils {
   exportsConfigs {
-      ColorSensorV3 {
+      Limelight {
       }
   }
 }
 
 model {
   components {
-    ColorSensorV3(NativeLibrarySpec) {
+    Limelight(NativeLibrarySpec) {
       sources {
         cpp {
           source {
@@ -50,8 +50,8 @@ model {
   }
 
   testSuites {
-    ColorSensorV3Test(GoogleTestTestSuiteSpec) {
-      testing $.components.ColorSensorV3
+    LimelightTest(GoogleTestTestSuiteSpec) {
+      testing $.components.Limelight
       sources.cpp {
         source {
           srcDir 'src/test/cpp'

@@ -24,8 +24,10 @@ nativeUtils.setSinglePrintPerPlatform()
 model {
     components {
         all {
-            nativeUtils.useAllPlatforms(it)
+            targetPlatform nativeUtils.wpi.platforms.roborio
+            //nativeUtils.useAllPlatforms(it)
         }
+
     }
     binaries {
         withType(NativeBinarySpec).all {
@@ -118,9 +120,9 @@ ext.createAllCombined = { list, name, base, type, project ->
 
     def task = project.tasks.create(base + "-all", type) {
         description = "Creates component archive for all classifiers"
-        destinationDir = outputsFolder
+        destinationDirectory = outputsFolder
         classifier = "all"
-        baseName = base
+        archiveBaseName = base
         duplicatesStrategy = 'exclude'
 
         list.each {

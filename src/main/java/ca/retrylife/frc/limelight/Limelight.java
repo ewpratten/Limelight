@@ -246,7 +246,7 @@ public class Limelight {
     /**
      * Enable camera snapshots twice per second
      * 
-     * @param enable
+     * @param enable Enable snapshots?
      */
     public void enableSnapshots(boolean enable) {
         this.table.getEntry("snapshot").setBoolean(enable);

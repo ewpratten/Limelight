@@ -5,6 +5,10 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 
 import static ca.retrylife.frc.limelight.util.NetworkTableUtil.simpleListener;
 
+import ca.retrylife.frc.limelight.controls.LEDMode;
+import ca.retrylife.frc.limelight.controls.OperationMode;
+import ca.retrylife.frc.limelight.controls.StreamMode;
+
 public class Limelight {
 
     /* Camera data stream */
@@ -127,6 +131,51 @@ public class Limelight {
      */
     public int getPipelineID() {
         return this.table.getEntry("getpipe").getNumber(0).intValue();
+    }
+
+    /**
+     * Set the camera LED mode
+     * 
+     * @param mode Mode
+     */
+    public void setLEDMode(LEDMode mode) {
+        this.table.getEntry("ledMode").setNumber(mode.getValue());
+    }
+
+    /**
+     * Set the camera operation mode
+     * 
+     * @param mode Mode
+     */
+    public void setOperationMode(OperationMode mode) {
+        this.table.getEntry("camMode").setNumber(mode.getValue());
+    }
+
+    /**
+     * Set the vision pipeline ID
+     * 
+     * @param id Pipeline ID
+     */
+    public void setPipelineID(int id) {
+        this.table.getEntry("pipeline").setNumber(id);
+    }
+
+    /**
+     * Set the camera stream mode
+     * 
+     * @param mode Stream mode
+     */
+    public void setStreamMode(StreamMode mode) {
+        this.table.getEntry("stream").setNumber(mode.getValue());
+    }
+
+    /**
+     * Enable camera snapshots twice per second
+     * 
+     * @param enable
+     */
+    public void enableSnapshots(boolean enable) {
+        this.table.getEntry("snapshot").setBoolean(enable);
     }
 
 }

@@ -65,4 +65,13 @@ public class Contour {
     public double getSkew() {
         return this.skew;
     }
+
+    /**
+     * Get the contour aspect ratio
+     * 
+     * @return Aspect ratio
+     */
+    public double getAspect() {
+        return this.x / this.y;
+    }
 }

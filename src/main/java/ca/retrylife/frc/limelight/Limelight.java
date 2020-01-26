@@ -2,7 +2,6 @@ package ca.retrylife.frc.limelight;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
 
 import static ca.retrylife.frc.limelight.util.NetworkTableUtil.simpleListener;
 
@@ -103,6 +102,31 @@ public class Limelight {
         }
 
         return new Target(tx, ty, ta, ts, tshort, tlong, thor, tvert);
+    }
+
+    /**
+     * Get the camera translation, or null if not possible. NOTE: This feature must
+     * be enabled in the Limelight settings
+     * 
+     * @return Camera translation
+     */
+    public CameraTranslation getCameraTranslation() {
+        // Ensure a camtran exists
+        if (!hasTarget() || this.camTran.length < 6) {
+            return null;
+        }
+
+        return new CameraTranslation(this.camTran[0], this.camTran[1], this.camTran[2], this.camTran[3],
+                this.camTran[4], this.camTran[5]);
+    }
+
+    /**
+     * Get the true active pipeline ID (0 to 9)
+     * 
+     * @return Pipeline ID
+     */
+    public int getPipelineID() {
+        return this.table.getEntry("getpipe").getNumber(0).intValue();
     }
 
 }

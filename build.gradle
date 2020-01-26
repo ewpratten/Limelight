@@ -22,10 +22,10 @@ allprojects {
 sourceSets {
     main {
         java {
-            srcDirs = ['java/src/main/java']
+            srcDirs = ['src/main/java']
         }
         resources {
-            srcDirs = ['java/src/main/resources']
+            srcDirs = ['src/main/resources']
         }
     }
 }

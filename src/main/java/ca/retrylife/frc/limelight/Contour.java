@@ -8,7 +8,7 @@ public class Contour {
     private double x, y, area, skew;
 
     /**
-     * Create an empty contour
+     * Create an empty Contour
      */
     public Contour() {
         this(0, 0, 0, 0);
@@ -58,7 +58,7 @@ public class Contour {
     }
 
     /**
-     * Get target skew from -90 to 0 degs
+     * Get target skew from -90 to 0 degrees
      * 
      * @return Target skew
      */
@@ -72,6 +72,6 @@ public class Contour {
      * @return Aspect ratio
      */
     public double getAspect() {
-        return this.x / this.y;
+        return (this.x / this.y);
     }
 }

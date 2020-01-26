@@ -92,39 +92,17 @@ public class Limelight {
     }
 
     /**
-     * Get the target X angle in degrees from the crosshair
+     * Get the detected vision target, or null if none found
      * 
-     * @return X angle
+     * @return Detected target
      */
-    public double getX() {
-        return this.tx;
-    }
+    public Target getTarget() {
+        // Return null if no target is found
+        if (!hasTarget()) {
+            return null;
+        }
 
-    /**
-     * Get the target X Rotation from the crosshair
-     * 
-     * @return X Rotation
-     */
-    public Rotation2d getXRotation() {
-        return Rotation2d.fromDegrees(getX());
-    }
-
-    /**
-     * Get the target Y angle in degrees from the crosshair
-     * 
-     * @return Y angle
-     */
-    public double getY() {
-        return this.ty;
-    }
-
-    /**
-     * Get the target Y Rotation from the crosshair
-     * 
-     * @return Y Rotation
-     */
-    public Rotation2d getYRotation() {
-        return Rotation2d.fromDegrees(getY());
+        return new Target(tx, ty, ta, ts, tshort, tlong, thor, tvert);
     }
 
 }

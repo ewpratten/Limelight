@@ -17,7 +17,7 @@ public class Limelight {
     /* Camera data */
     private boolean tv;
     private double tx, ty, ta, ts, tl, tshort, tlong, thor, tvert;
-    private double[] camTran;
+    private double[] camTran, cornx, corny;
 
     public Limelight() {
 
@@ -83,6 +83,16 @@ public class Limelight {
             this.camTran = v.getDoubleArray();
         });
 
+        // TCORNX
+        simpleListener(this.table, "tcornx", (v) -> {
+            this.cornx = v.getDoubleArray();
+        });
+
+        // TCORNY
+        simpleListener(this.table, "tcorny", (v) -> {
+            this.corny = v.getDoubleArray();
+        });
+
     }
 
     /**
@@ -92,6 +102,16 @@ public class Limelight {
      */
     public boolean hasTarget() {
         return this.tv;
+    }
+
+    /**
+     * Get the pipeline’s latency contribution (ms) Add at least 11ms for image
+     * capture latency.
+     * 
+     * @return Pipeline latency
+     */
+    public double getLatency() {
+        return this.tl;
     }
 
     /**
@@ -131,6 +151,60 @@ public class Limelight {
      */
     public int getPipelineID() {
         return this.table.getEntry("getpipe").getNumber(0).intValue();
+    }
+
+    /**
+     * Get an array of corner X coordinates. "Send Contours" must be enabled on the
+     * Limelight
+     * 
+     * @return Corner X coords
+     */
+    public double[] getXCorners() {
+        return this.cornx;
+    }
+
+    /**
+     * Get an array of corner Y coordinates. "Send Contours" must be enabled on the
+     * Limelight
+     * 
+     * @return Corner Y coords
+     */
+    public double[] getYCorners() {
+        return this.corny;
+    }
+
+    /**
+     * Get raw contour data
+     * 
+     * @return Array of raw contours
+     */
+    public Contour[] getRawContours() {
+        Contour[] output = new Contour[3];
+
+        // Get each contour
+        output[0] = new Contour(this.table.getEntry("tx0").getDouble(0.0), this.table.getEntry("ty0").getDouble(0.0),
+                this.table.getEntry("ta0").getDouble(0.0), this.table.getEntry("ts0").getDouble(0.0));
+        output[1] = new Contour(this.table.getEntry("tx1").getDouble(0.0), this.table.getEntry("ty1").getDouble(0.0),
+                this.table.getEntry("ta1").getDouble(0.0), this.table.getEntry("ts1").getDouble(0.0));
+        output[2] = new Contour(this.table.getEntry("tx2").getDouble(0.0), this.table.getEntry("ty2").getDouble(0.0),
+                this.table.getEntry("ta2").getDouble(0.0), this.table.getEntry("ts2").getDouble(0.0));
+
+        return output;
+    }
+
+    /**
+     * Get raw crosshair data
+     * 
+     * @return Array of raw crosshairs
+     */
+    public Crosshair[] getRawCrosshairs() {
+        Crosshair[] output = new Crosshair[2];
+
+        // Get each crosshair
+        output[0] = new Crosshair(this.table.getEntry("cx0").getDouble(0.0), this.table.getEntry("cy0").getDouble(0.0));
+        output[1] = new Crosshair(this.table.getEntry("cx1").getDouble(0.0), this.table.getEntry("cy1").getDouble(0.0));
+
+        return output;
     }
 
     /**
